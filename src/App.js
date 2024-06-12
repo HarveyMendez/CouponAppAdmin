@@ -4,7 +4,7 @@ import HomePage from './pages/HomePage';
 
 const App = () => {
   return (
-      <Router basename="/couponApp">
+      <Router basename="/CouponAppAdmin">
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<HomePage/>} />
