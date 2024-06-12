@@ -204,6 +204,31 @@ const HomePage = () => {
           }
         fetchBusiness();
     };
+
+    const handleGenerarToken = async (empresaId) => {
+        const empresa = empresas.find(empresa => empresa.id === empresaId);
+        const data = {};
+        data['nombre_usuario']= empresa.nombre_usuario;
+
+        try {
+            const response = await fetch('https://couponapi2.azurewebsites.net/index.php/generateToken', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            });
+              const data2 = await response.json();
+              const claveTemp = data2.length > 0 ? data2[0].claveTemp : null;
+              alert("Clave Temporal: " + claveTemp);
+            if (!response.ok) {
+              console.log("hubo errores");
+            }
+          } catch (error) {
+            console.error('Error al enviar la solicitud PUT:', error);
+          }
+          //enviar correo con token
+    };
   
   
     const fetchBusiness = async () => {
@@ -252,7 +277,7 @@ const HomePage = () => {
                 <td>
                   <button onClick={() => handleCambiarEstado(empresa.id)}>Cambiar estado</button>
                   <button onClick={() => handleVerCupones(empresa.id)}>Ver Cupones</button>
-                  <button>Generar Token</button>
+                  <button onClick={() => handleGenerarToken(empresa.id)}>Generar Token</button>
                 </td>
               </tr>
             ))}
