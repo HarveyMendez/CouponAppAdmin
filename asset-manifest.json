@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/CouponAppAdmin/static/css/main.5a93d18e.css",
-    "main.js": "/CouponAppAdmin/static/js/main.d0d61170.js",
+    "main.css": "/CouponAppAdmin/static/css/main.61550b90.css",
+    "main.js": "/CouponAppAdmin/static/js/main.58719bef.js",
     "static/js/453.0efe128f.chunk.js": "/CouponAppAdmin/static/js/453.0efe128f.chunk.js",
     "index.html": "/CouponAppAdmin/index.html",
-    "main.5a93d18e.css.map": "/CouponAppAdmin/static/css/main.5a93d18e.css.map",
-    "main.d0d61170.js.map": "/CouponAppAdmin/static/js/main.d0d61170.js.map",
+    "main.61550b90.css.map": "/CouponAppAdmin/static/css/main.61550b90.css.map",
+    "main.58719bef.js.map": "/CouponAppAdmin/static/js/main.58719bef.js.map",
     "453.0efe128f.chunk.js.map": "/CouponAppAdmin/static/js/453.0efe128f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5a93d18e.css",
-    "static/js/main.d0d61170.js"
+    "static/css/main.61550b90.css",
+    "static/js/main.58719bef.js"
   ]
 }
