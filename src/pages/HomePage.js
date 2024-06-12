@@ -52,7 +52,7 @@ const Modal = ({ isOpen, onClose}) => {
             <input type="text" id="direccion_fisica" name="direccion_fisica" required/><br/>
 
             <label htmlFor="cedula">Cedula:</label>
-            <input type="number" id="cedula" name="cedula" required/><br/>
+            <input type="number" id="cedula" name="cedula" min="0" inputmode="numeric" required/><br/>
 
             <label htmlFor="correo_electronico">Correo Electronico:</label>
             <input type="email" id="correo_electronico" name="correo_electronico" required/><br/>
@@ -61,7 +61,7 @@ const Modal = ({ isOpen, onClose}) => {
             <input type="text" id="ubicacion" name="ubicacion" required/><br/>
 
             <label htmlFor="telefono">Telefono:</label>
-            <input type="number" id="telefono" name="telefono" required/><br/>
+            <input type="number" id="telefono" name="telefono" min="0" inputmode="numeric" required/><br/>
   
             <button type="submit">Añadir Empresa</button>
           </form>
@@ -119,32 +119,36 @@ const Modal2 = ({ isOpen, onClose, empresa }) => {
   
     return (
       <div className="modal-overlay">
-        <div className="modal">
-        <button onClick={onClose} className="modal-close-button">Cerrar</button>
+    <div className="modal">
+      <button onClick={onClose} className="modal-close-button">Cerrar</button>
+      {cupones.length === 0 ? (
+        <p>El usuario {empresa.nombre_usuario} no tiene cupones.</p>
+      ) : (
+        <div className="table-container">
         <table>
-        <thead>
-          <tr>
-            <th>Nombre del Cupón</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          {cupones.map(cupon => (
-            <tr key={cupon.id}>
-              <td>{cupon.nombre}</td>
-              
-              <td>{cupon.estado ? 'Activo' : 'Inactivo'}</td>
-              <td>
-                <button onClick={() => handleEstado(cupon.nombre)}>Cambiar estado</button>
-              </td>
+          <thead>
+            <tr>
+              <th>Nombre del Cupón</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {cupones.map(cupon => (
+              <tr key={cupon.id}>
+                <td>{cupon.nombre}</td>
+                <td>{cupon.estado ? 'Activo' : 'Inactivo'}</td>
+                <td>
+                  <button onClick={() => handleEstado(cupon.nombre)}>Cambiar estado</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         </div>
-      </div>
+      )}
+    </div>
+  </div>
     );
   };
 
@@ -207,8 +211,9 @@ const HomePage = () => {
 
     const handleGenerarToken = async (empresaId) => {
         const empresa = empresas.find(empresa => empresa.id === empresaId);
+        setEmpresaSeleccionada(empresa);
         const data = {};
-        data['nombre_usuario']= empresa.nombre_usuario;
+        data['nombre_usuario']= empresaSeleccionada.nombre_usuario;
 
         try {
             const response = await fetch('https://couponapi2.azurewebsites.net/index.php/generateToken', {
@@ -221,13 +226,38 @@ const HomePage = () => {
               const data2 = await response.json();
               const claveTemp = data2.length > 0 ? data2[0].claveTemp : null;
               alert("Clave Temporal: " + claveTemp);
+              sendEmail(claveTemp, );
             if (!response.ok) {
               console.log("hubo errores");
             }
           } catch (error) {
             console.error('Error al enviar la solicitud PUT:', error);
           }
-          //enviar correo con token
+    };
+
+    const sendEmail = async (data) => {
+
+      const email = empresaSeleccionada.correo_electronico;
+      const subject= "Clave Temporal para tu Usuario: "+ empresaSeleccionada.nombre_usuario;
+      const message = data;
+      try {
+        const response = await fetch('https://emailserviceapp.azurewebsites.net/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, subject, message })
+        });
+        if (response.ok) {
+          alert('Correo enviado con éxito');
+        } else {
+          const errorMessage = await response.text();
+          alert('Error al enviar el correo', errorMessage);
+          // Maneja el error aquí, por ejemplo, muestra un mensaje de alerta al usuario
+        }
+      } catch (error) {
+        console.error('Error al enviar la solicitud POST:', error);
+      }
     };
   
   
