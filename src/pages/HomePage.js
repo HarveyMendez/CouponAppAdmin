@@ -36,8 +36,8 @@ const Modal = ({ isOpen, onClose}) => {
     if (!isOpen) return null;
   
     return (
-      <div className="modal-overlay">
-        <div className="modal">
+      <div id="modal" class="modal">
+      <div class="modal-content">
           <h2>Formulario para Añadir Empresa</h2>
           <button onClick={onClose} className="modal-close-button">Cerrar</button>
           
@@ -118,8 +118,8 @@ const Modal2 = ({ isOpen, onClose, empresa }) => {
     if (!isOpen) return null;
   
     return (
-      <div className="modal-overlay">
-    <div className="modal">
+      <div id="modal" class="modal">
+      <div class="modal-content">
       <button onClick={onClose} className="modal-close-button">Cerrar</button>
       {cupones.length === 0 ? (
         <p>El usuario {empresa.nombre_usuario} no tiene cupones.</p>
