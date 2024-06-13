@@ -293,6 +293,7 @@ const HomePage = () => {
             <tr>
               <th>Nombre de la empresa</th>
               <th>Usuario</th>
+              <th>Correo</th>
               <th>Estado</th>
               <th>Acciones</th>
               
@@ -303,6 +304,7 @@ const HomePage = () => {
               <tr key={empresa.id}>
                 <td>{empresa.nombre_empresa}</td>
                 <td>{empresa.nombre_usuario}</td>
+                <td>{empresa.correo_electronico}</td>
                 <td>{empresa.estado ? 'Activo' : 'Inactivo'}</td>
                 <td>
                   <button onClick={() => handleCambiarEstado(empresa.id)}>Cambiar estado</button>
